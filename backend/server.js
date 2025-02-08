@@ -10,15 +10,20 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Fix CORS Issues
+// Fix CORS Issue
+const allowedOrigins = [
+    process.env.CLIENT_URL,  // This will fetch the frontend URL from .env
+    "http://localhost:3000" // Allow local development
+];
+
 app.use(cors({
-    origin: process.env.CLIENT_URL,
-    methods: "GET,POST,PUT,DELETE",
+    origin: allowedOrigins,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     allowedHeaders: "Content-Type,Authorization",
 }));
 
-// Rate limiting for security (Increased limit)
+// Rate limiting for security
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,  // 15 minutes
     max: 100,  // Allow 100 requests per IP
@@ -30,13 +35,13 @@ app.use("/api/auth/forgot-password", limiter);
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-}).then(() => console.log("MongoDB Connected"))
-  .catch(err => console.error("MongoDB Connection Error:", err));
+}).then(() => console.log(" MongoDB Connected"))
+  .catch(err => console.error(" MongoDB Connection Error:", err));
 
 app.use("/api/auth", authRoutes);
 
 // Fix PORT issue on Render
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });
