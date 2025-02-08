@@ -1,57 +1,40 @@
-export const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5001/api/auth";
+export const API_BASE_URL = "https://password-reset-pro.onrender.com/api/auth";
 
-export const loginUser = async (email, password) => {
-    const response = await fetch(`${API_BASE_URL}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-    });
-
-    if (!response.ok) {
-        throw new Error("Invalid credentials");
+export const forgotPassword = async (email) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/forgot-password`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
+        });
+        return response.json();
+    } catch (error) {
+        console.error("Forgot Password Error:", error);
     }
-
-    return response.json();
 };
 
-export const requestPasswordReset = async (email) => {
-    const response = await fetch(`${API_BASE_URL}/forgot-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-    });
-
-    if (!response.ok) {
-        throw new Error("Error sending reset email");
+export const resetPassword = async (token, newPassword) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/reset-password/${token}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: newPassword }),
+        });
+        return response.json();
+    } catch (error) {
+        console.error("Reset Password Error:", error);
     }
-
-    return response.json();
 };
 
-export const resetPassword = async (token, password) => {
-    const response = await fetch(`${API_BASE_URL}/reset-password/${token}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-    });
-
-    if (!response.ok) {
-        throw new Error("Error resetting password");
+export const login = async (email, password) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+        });
+        return response.json();
+    } catch (error) {
+        console.error("Login Error:", error);
     }
-
-    return response.json();
-};
-
-export const registerUser = async (userData) => {
-    const response = await fetch(`${API_BASE_URL}/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-    });
-
-    if (!response.ok) {
-        throw new Error("Registration failed");
-    }
-
-    return response.json();
 };

@@ -10,17 +10,18 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Fix CORS issues dynamically
+// Fix CORS Issues
 app.use(cors({
     origin: process.env.CLIENT_URL,
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
+    allowedHeaders: "Content-Type,Authorization",
 }));
 
-// Rate limiting for security
+// Rate limiting for security (Increased limit)
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,  // 15 minutes
-    max: 10,  // Limit 10 requests per IP
+    max: 100,  // Allow 100 requests per IP
     message: "Too many requests from this IP, please try again later",
 });
 app.use("/api/auth/forgot-password", limiter);
@@ -34,6 +35,8 @@ mongoose.connect(process.env.MONGO_URI, {
 
 app.use("/api/auth", authRoutes);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`);
+// Fix PORT issue on Render
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
