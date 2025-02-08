@@ -1,50 +1,50 @@
 import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
 import cors from "cors";
-import rateLimit from "express-rate-limit";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
 
 dotenv.config();
-
 const app = express();
+
+// Middleware
 app.use(express.json());
 
+// Allowed Origins
 const allowedOrigins = [
-    process.env.CLIENT_URL,  // Netlify frontend URL
-    "http://localhost:3000"  // Local development
+    process.env.CLIENT_URL,
+    "http://localhost:3000",
+    "https://password-reset-pro.netlify.app"
 ];
 
 app.use(cors({
-    origin: allowedOrigins,
-    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"]
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
 }));
 
-// Root endpoint for API status
+// Routes
+app.use("/api/auth", authRoutes);
+
+// Base Route
 app.get("/", (req, res) => {
     res.send("API is running...");
 });
 
-// Rate limiter for security
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,  // 15 minutes
-    max: 100,  // Allow 100 requests per IP
-    message: "Too many requests from this IP, please try again later",
-});
-app.use("/api/auth/forgot-password", limiter);
-
-// Connect to MongoDB
+// Database Connection
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => console.log("MongoDB Connected"))
-  .catch(err => console.error("MongoDB Connection Error:", err));
+    useUnifiedTopology: true
+}).then(() => {
+    console.log("MongoDB Connected");
+}).catch(err => console.log("MongoDB Connection Error:", err));
 
-app.use("/api/auth", authRoutes);
-
+// Start Server
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
