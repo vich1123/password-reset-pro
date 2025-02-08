@@ -1,4 +1,4 @@
-export const API_BASE_URL = "https://password-reset-pro.onrender.com/api/auth"; // Ensure this is correct
+export const API_BASE_URL = process.env.REACT_APP_SERVER_URL || "https://password-reset-pro.onrender.com/api/auth";
 
 export const forgotPassword = async (email) => {
     try {
@@ -10,7 +10,7 @@ export const forgotPassword = async (email) => {
 
         if (!response.ok) throw new Error("Failed to send reset link");
 
-        return response.json();
+        return await response.json();
     } catch (error) {
         console.error("Forgot Password Error:", error);
     }
@@ -26,7 +26,7 @@ export const resetPassword = async (token, newPassword) => {
 
         if (!response.ok) throw new Error("Failed to reset password");
 
-        return response.json();
+        return await response.json();
     } catch (error) {
         console.error("Reset Password Error:", error);
     }
@@ -42,7 +42,7 @@ export const login = async (email, password) => {
 
         if (!response.ok) throw new Error("Invalid credentials");
 
-        return response.json();
+        return await response.json();
     } catch (error) {
         console.error("Login Error:", error);
     }

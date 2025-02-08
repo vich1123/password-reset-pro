@@ -10,20 +10,24 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Fix CORS Issue
 const allowedOrigins = [
-    process.env.CLIENT_URL,  // This will fetch the frontend URL from .env
-    "http://localhost:3000" // Allow local development
+    process.env.CLIENT_URL, // Netlify frontend
+    "http://localhost:3000" // Local development
 ];
 
 app.use(cors({
     origin: allowedOrigins,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
     credentials: true,
-    allowedHeaders: "Content-Type,Authorization",
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// Rate limiting for security
+// Root endpoint to check API status
+app.get("/", (req, res) => {
+    res.send("API is running...");
+});
+
+// Rate limiter for security
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,  // 15 minutes
     max: 100,  // Allow 100 requests per IP
@@ -40,8 +44,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 app.use("/api/auth", authRoutes);
 
-// Fix PORT issue on Render
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
