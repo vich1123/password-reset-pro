@@ -7,16 +7,14 @@ import authRoutes from "./routes/auth.js";
 dotenv.config();
 const app = express();
 
-// Middleware
-app.use(express.json());
-
-// Allowed Origins
+// Allowed frontend URLs
 const allowedOrigins = [
     process.env.CLIENT_URL,
     "http://localhost:3000",
     "https://password-reset-pro.netlify.app"
 ];
 
+// Proper CORS setup
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {
@@ -29,15 +27,9 @@ app.use(cors({
     credentials: true
 }));
 
-// Routes
-app.use("/api/auth", authRoutes);
+app.use(express.json());
 
-// Base Route
-app.get("/", (req, res) => {
-    res.send("API is running...");
-});
-
-// Database Connection
+// MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -45,6 +37,14 @@ mongoose.connect(process.env.MONGO_URI, {
     console.log("MongoDB Connected");
 }).catch(err => console.log("MongoDB Connection Error:", err));
 
-// Start Server
+// Routes
+app.use("/api/auth", authRoutes);
+
+// Base route
+app.get("/", (req, res) => {
+    res.send("API is running...");
+});
+
+// Start server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
