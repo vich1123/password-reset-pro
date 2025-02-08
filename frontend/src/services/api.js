@@ -8,11 +8,12 @@ export const forgotPassword = async (email) => {
             body: JSON.stringify({ email }),
         });
 
-        if (!response.ok) throw new Error("❌ Failed to send reset link");
+        if (!response.ok) throw new Error("Failed to send reset link");
 
         return await response.json();
     } catch (error) {
         console.error("Forgot Password Error:", error);
+        throw error;
     }
 };
 
@@ -24,11 +25,12 @@ export const resetPassword = async (token, newPassword) => {
             body: JSON.stringify({ password: newPassword }),
         });
 
-        if (!response.ok) throw new Error("❌ Failed to reset password");
+        if (!response.ok) throw new Error("Failed to reset password");
 
         return await response.json();
     } catch (error) {
         console.error("Reset Password Error:", error);
+        throw error;
     }
 };
 
@@ -40,10 +42,11 @@ export const login = async (email, password) => {
             body: JSON.stringify({ email, password }),
         });
 
-        if (!response.ok) throw new Error("❌ Invalid credentials");
+        if (!response.ok) throw new Error("Invalid credentials");
 
         return await response.json();
     } catch (error) {
         console.error("Login Error:", error);
+        throw error;
     }
 };

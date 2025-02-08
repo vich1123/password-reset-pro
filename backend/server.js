@@ -24,14 +24,14 @@ app.use(cors({
 
 // Root endpoint for API status
 app.get("/", (req, res) => {
-    res.send(" API is running...");
+    res.send("API is running...");
 });
 
 // Rate limiter for security
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,  // 15 minutes
     max: 100,  // Allow 100 requests per IP
-    message: " Too many requests from this IP, please try again later",
+    message: "Too many requests from this IP, please try again later",
 });
 app.use("/api/auth/forgot-password", limiter);
 
@@ -39,8 +39,8 @@ app.use("/api/auth/forgot-password", limiter);
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-}).then(() => console.log(" MongoDB Connected"))
-  .catch(err => console.error(" MongoDB Connection Error:", err));
+}).then(() => console.log("MongoDB Connected"))
+  .catch(err => console.error("MongoDB Connection Error:", err));
 
 app.use("/api/auth", authRoutes);
 
