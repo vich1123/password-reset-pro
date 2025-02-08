@@ -5,7 +5,9 @@ export const forgotPassword = async (email) => {
     try {
         const response = await fetch(`${API_BASE_URL}/forgot-password`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify({ email })
         });
 
@@ -23,7 +25,9 @@ export const resetPassword = async (token, password) => {
     try {
         const response = await fetch(`${API_BASE_URL}/reset-password/${token}`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify({ password })
         });
 
