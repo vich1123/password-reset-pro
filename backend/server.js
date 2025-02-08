@@ -11,8 +11,8 @@ const app = express();
 app.use(express.json());
 
 const allowedOrigins = [
-    process.env.CLIENT_URL, // Netlify frontend
-    "http://localhost:3000" // Local development
+    process.env.CLIENT_URL,  // Netlify frontend URL
+    "http://localhost:3000"  // Local development
 ];
 
 app.use(cors({
@@ -22,16 +22,16 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// Root endpoint to check API status
+// Root endpoint for API status
 app.get("/", (req, res) => {
-    res.send("API is running...");
+    res.send(" API is running...");
 });
 
 // Rate limiter for security
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,  // 15 minutes
     max: 100,  // Allow 100 requests per IP
-    message: "Too many requests from this IP, please try again later",
+    message: " Too many requests from this IP, please try again later",
 });
 app.use("/api/auth/forgot-password", limiter);
 
