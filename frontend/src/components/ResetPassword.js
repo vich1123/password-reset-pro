@@ -9,7 +9,7 @@ const ResetPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:5001/api/auth/reset-password/${token}`, {
+            const response = await fetch(`https://password-reset-pro.onrender.com/api/auth/reset-password/${token}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ password }),
@@ -24,19 +24,14 @@ const ResetPassword = () => {
     };
 
     return (
-        <div style={styles.container}>
-            <form onSubmit={handleSubmit} style={styles.form}>
+        <div>
+            <form onSubmit={handleSubmit}>
                 <h2>Reset Password</h2>
                 <input type="password" placeholder="New Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <button type="submit">Reset Password</button>
             </form>
         </div>
     );
-};
-
-const styles = {
-    container: { display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" },
-    form: { display: "flex", flexDirection: "column", gap: "10px", padding: "20px", border: "1px solid #ddd", borderRadius: "5px" },
 };
 
 export default ResetPassword;
