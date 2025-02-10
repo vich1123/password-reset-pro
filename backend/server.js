@@ -1,42 +1,41 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import mongoose from "mongoose";
-import authRoutes from "./routes/auth.js";
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
-dotenv.config();
 const app = express();
 
-// Allowed Frontend URLs
+// CORS Configuration
 const allowedOrigins = [
-    process.env.CLIENT_URL,
     "http://localhost:3000",
     "https://password-reset-pro.netlify.app"
 ];
 
-// CORS Configuration
 app.use(cors({
     origin: allowedOrigins,
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json());
-
-// Fix Strict Query Warning
-mongoose.set("strictQuery", true);
+app.use(express.urlencoded({ extended: true }));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
-    console.log(" MongoDB Connected Successfully");
-}).catch(err => {
-    console.error(" MongoDB Connection Error:", err);
+    console.log("MongoDB connected successfully");
+}).catch((err) => {
+    console.error("MongoDB Connection Error:", err);
 });
 
-app.use("/api/auth", authRoutes);
+// Test API Route
+app.get("/", (req, res) => {
+    res.send("API is running...");
+});
 
+// Start the server
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
