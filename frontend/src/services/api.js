@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://password-reset-pro.onrender.com/api/auth";
+const API_BASE_URL = "https://password-reset-pro.onrender.com/api/auth"; 
 
 export const forgotPassword = async (email) => {
   try {
@@ -13,7 +13,7 @@ export const forgotPassword = async (email) => {
 
 export const resetPassword = async (token, newPassword) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/reset-password`, { token, newPassword });
+    const response = await axios.post(`${API_BASE_URL}/reset-password/${token}`, { newPassword });
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;
