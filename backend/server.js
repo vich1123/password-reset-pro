@@ -1,25 +1,32 @@
 import express from "express";
 import cors from "cors";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
+import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 
 dotenv.config();
 const app = express();
 
-app.use(cors());
+
+const allowedOrigins = [
+  "https://resett-password.netlify.app", 
+  "http://localhost:3000",
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins, // Allow only your frontend
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // Allow cookies, authentication headers
+  })
+);
+
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send("Backend is running...");
-});
-  
-mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("MongoDB Connected Successfully"))
-  .catch((err) => console.error("MongoDB Connection Error:", err));
+connectDB();
 
+// Routes
 app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
