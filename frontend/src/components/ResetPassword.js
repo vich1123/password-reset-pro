@@ -1,37 +1,45 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { resetPassword } from "../services/api.js";
 
 const ResetPassword = () => {
-    const { token } = useParams();
-    const navigate = useNavigate();
-    const [password, setPassword] = useState("");
+  const { token } = useParams();
+  const navigate = useNavigate();
+  const [newPassword, setNewPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch(`https://password-reset-pro.onrender.com/api/auth/reset-password/${token}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ password }),
-            });
+  const handleResetPassword = async () => {
+    try {
+      const response = await resetPassword(token, newPassword);
+      setMessage(response.message || "Password reset successfully!");
+      setTimeout(() => navigate("/"), 2000);
+    } catch (error) {
+      setMessage(error.message || "Error resetting password");
+    }
+  };
 
-            const data = await response.json();
-            alert(data.message);
-            if (response.ok) navigate("/");
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
-
-    return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <h2>Reset Password</h2>
-                <input type="password" placeholder="New Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                <button type="submit">Reset Password</button>
-            </form>
+  return (
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-4">
+          <div className="card p-4 shadow">
+            <h2 className="text-center mb-4">Reset Password</h2>
+            <input
+              type="password"
+              className="form-control mb-3"
+              placeholder="Enter new password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+            <button className="btn btn-success w-100" onClick={handleResetPassword}>
+              Reset Password
+            </button>
+            <p className="mt-3 text-center text-success">{message}</p>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default ResetPassword;

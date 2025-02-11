@@ -7,6 +7,4 @@ const UserSchema = new mongoose.Schema({
   resetTokenExpiry: { type: Date, default: null },
 });
 
-//  Removed automatic hashing to prevent double hashing
-
 export default mongoose.model("User", UserSchema);

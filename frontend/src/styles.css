@@ -1,106 +1,40 @@
-/* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    margin: 0;
-    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
+    background-color: #f8f9fa;
+  }
 
-/* Container */
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-/* Login & Forgot Password Box */
-.login-box {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    text-align: center;
-}
-
-.login-box h2 {
-    margin-bottom: 20px;
-    color: #333;
-}
-
-/* Input Fields */
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Buttons */
-button {
-    width: 100%;
-    padding: 10px;
-    background: #007BFF;
-    border: none;
-    color: white;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-button:hover {
-    background: #0056b3;
-}
-
-/* Forgot Password Link */
-.forgot-password {
-    display: block;
-    margin-top: 15px;
-    text-decoration: none;
-    color: #007BFF;
-}
-
-.forgot-password:hover {
-    text-decoration: underline;
-}
-
-/* Dashboard Page */
-.dashboard-container {
-    text-align: center;
+  .card{
+    border-bottom: 10px;
+  }
+  
+  .container {
     background: white;
-    padding: 50px;
-    border-radius: 10px;
+    padding: 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
-}
-
-.dashboard-container h1 {
-    color: #333;
-}
-
-.dashboard-container p {
-    margin: 10px 0;
-    color: #666;
-}
-
-/* Logout Button */
-.logout-button {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 15px;
-    background: red;
-    color: white;
-    text-decoration: none;
     border-radius: 5px;
-}
-
-.logout-button:hover {
-    background: darkred;
-}
+  }
+  
+  input {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }
+  
