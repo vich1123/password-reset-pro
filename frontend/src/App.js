@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/Login.js";
-import ForgotPassword from "./components/ForgotPassword.js";
-import ResetPassword from "./components/ResetPassword.js";
-import Dashboard from "./components/Dashboard.js";
+import Login from "./Login";
+import ForgotPassword from "./ForgotPassword";
+import ResetPassword from "./ResetPassword";
+import Dashboard from "./Dashboard";
 
-const App = () => {
+function App() {
   return (
     <Router>
       <Routes>
@@ -16,6 +16,6 @@ const App = () => {
       </Routes>
     </Router>
   );
-};
+}
 
 export default App;

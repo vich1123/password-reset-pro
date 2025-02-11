@@ -1,34 +1,39 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { resetPassword } from "../services/api";
+import React, { useState } from "react";
+import axios from "axios";
 
-const ResetPassword = () => {
-  const { token } = useParams();
-  const [newPassword, setNewPassword] = useState("");
+const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleResetPassword = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await resetPassword(token, newPassword);
-      setMessage(response.message);
+      const response = await axios.post(
+        "http://localhost:5001/api/auth/forgot-password",
+        { email }
+      );
+      setMessage(response.data.message);
     } catch (error) {
-      setMessage("Error resetting password");
+      setMessage("Error sending reset link");
     }
   };
 
   return (
-    <div>
-      <h2>Reset Password</h2>
-      <input
-        type="password"
-        placeholder="Enter new password"
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-      />
-      <button onClick={handleResetPassword}>Reset Password</button>
+    <div className="container">
+      <h2>Forgot Password</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <button type="submit">Send Reset Link</button>
+      </form>
       <p>{message}</p>
     </div>
   );
 };
 
-export default ResetPassword;
+export default ForgotPassword;
