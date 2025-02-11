@@ -59,7 +59,6 @@ export const forgotPassword = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "15m" });
 
-
     const frontendURL = process.env.FRONTEND_URL || "https://resett-password.netlify.app"; 
 
     const transporter = nodemailer.createTransport({
