@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5001/api/auth";
+const API_BASE_URL = "https://password-reset-pro.onrender.com/api/auth";
 
 export const forgotPassword = async (email) => {
   try {
