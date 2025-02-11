@@ -1,36 +1,25 @@
 import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
-import connectDB from "./config/db.js";
+import cors from "cors";
+import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
 
 dotenv.config();
 const app = express();
 
-const allowedOrigins = [
-  "https://resett-password.netlify.app", 
-  "http://localhost:3000",
-];
-
-app.use(
-  cors({
-    origin: allowedOrigins,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
-
 app.use(express.json());
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 
-connectDB();
+mongoose
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB Connected Successfully"))
+  .catch((err) => console.error("MongoDB Connection Error:", err));
 
-// Routes
 app.use("/api/auth", authRoutes);
 
-// Default Route (to prevent "Cannot GET /")
 app.get("/", (req, res) => {
-  res.send("Password Reset API is running.");
+  res.send("Server is running...");
 });
 
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
