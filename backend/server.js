@@ -7,7 +7,6 @@ import authRoutes from "./routes/auth.js";
 dotenv.config();
 const app = express();
 
-
 const allowedOrigins = [
   "https://resett-password.netlify.app", 
   "http://localhost:3000",
@@ -15,9 +14,9 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: allowedOrigins, // Allow only your frontend
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // Allow cookies, authentication headers
+    credentials: true,
   })
 );
 
@@ -27,6 +26,11 @@ connectDB();
 
 // Routes
 app.use("/api/auth", authRoutes);
+
+// Default Route (to prevent "Cannot GET /")
+app.get("/", (req, res) => {
+  res.send("Password Reset API is running.");
+});
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
