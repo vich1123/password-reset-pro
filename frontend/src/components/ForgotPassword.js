@@ -9,7 +9,7 @@ const ForgotPassword = () => {
 
   const handleForgotPassword = async () => {
     try {
-      const response = await axios.post("http://localhost:5001/api/auth/forgot-password", { email });
+      const response = await axios.post("https://password-reset-pro.onrender.com/api", { email });
       setMessage(response.data.message || "Reset link sent successfully!");
       setError("");
     } catch (err) {
