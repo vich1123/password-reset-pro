@@ -9,8 +9,10 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+
+// Ensure CORS allows requests from the correct frontend
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL || 'http://localhost:3000',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
@@ -23,6 +25,11 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch((err) => console.log('MongoDB Connection Error:', err));
 
 app.use('/api/auth', authRoutes);
+
+// Health check route to confirm backend is running
+app.get('/', (req, res) => {
+    res.status(200).send('Server is running');
+});
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
