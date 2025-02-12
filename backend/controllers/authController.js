@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-// **User Registration**
+// User Registration
 export const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -44,7 +44,7 @@ export const registerUser = async (req, res) => {
     }
 };
 
-// **User Login**
+// User Login
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -72,7 +72,7 @@ export const loginUser = async (req, res) => {
     }
 };
 
-// **Forgot Password**
+// Forgot Password
 export const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
@@ -104,7 +104,7 @@ export const forgotPassword = async (req, res) => {
     }
 };
 
-// **Reset Password**
+// Reset Password
 export const resetPassword = async (req, res) => {
     try {
         const { token, newPassword } = req.body;

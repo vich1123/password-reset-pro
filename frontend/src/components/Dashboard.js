@@ -15,7 +15,17 @@ const Dashboard = () => {
     <div>
       <h1>Welcome to the Dashboard</h1>
       <p>You are logged in!</p>
-      <button onClick={handleLogout} style={{ marginTop: "20px", padding: "10px", background: "red", color: "white", border: "none", cursor: "pointer" }}>
+      <button
+        onClick={handleLogout}
+        style={{
+          marginTop: "20px",
+          padding: "10px",
+          background: "red",
+          color: "white",
+          border: "none",
+          cursor: "pointer",
+        }}
+      >
         Logout
       </button>
     </div>
