@@ -3,6 +3,7 @@ import { register, login, forgotPassword, resetPassword } from "../controllers/a
 
 const router = express.Router();
 
+// Authentication Routes
 router.post("/register", register);
 router.post("/login", login);
 router.post("/forgot-password", forgotPassword);
