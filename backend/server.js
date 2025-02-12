@@ -9,10 +9,11 @@ const app = express();
 
 app.use(express.json());
 
-// Proper CORS Handling
+// Allow CORS for multiple origins, including Netlify
 const allowedOrigins = [
   "http://localhost:3001",
-  "https://password-reset-pro.onrender.com"
+  "https://password-reset-pro.onrender.com",
+  "https://resett-password.netlify.app"
 ];
 
 app.use(cors({
@@ -28,7 +29,10 @@ app.use(cors({
 
 // Manually handle preflight (OPTIONS) requests
 app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", allowedOrigins.includes(req.headers.origin) ? req.headers.origin : "*");
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.header("Access-Control-Allow-Credentials", "true");
@@ -52,6 +56,9 @@ app.get("/", (req, res) => {
   res.send("Server is running...");
 });
 
-// Start the Server
+// Prevent Port Conflict by Checking if Already in Use
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
